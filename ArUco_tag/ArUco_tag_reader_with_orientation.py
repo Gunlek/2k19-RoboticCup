@@ -3,6 +3,7 @@ from cv2 import aruco
 import numpy as np
 
 img_path = "pi-camera/samples/single/single_capture_3.jpg"
+# img_path = "pi-camera/samples/board/board_capture_3.jpg"
 img = cv.imread(img_path)
 
 marker_length = 100
@@ -21,7 +22,11 @@ corners, ids, rejectedPoints = aruco.detectMarkers(img, aruco_dict)
 rvecs, tvecs, _ = aruco.estimatePoseSingleMarkers(corners, marker_length, camera_matrix, distance_coeffs)
 
 aruco.drawDetectedMarkers(img, corners, ids)
-aruco.drawAxis(img, camera_matrix, distance_coeffs, rvecs, tvecs, 10)
+for index in range(len(rvecs)):
+    aruco.drawAxis(img, camera_matrix, distance_coeffs, rvecs[index], tvecs[index], 50)
 
 cv.imshow("Frame", img)
 cv.waitKey(0)
+
+print("rvecs ", rvecs)
+print("tvecs ", tvecs)
